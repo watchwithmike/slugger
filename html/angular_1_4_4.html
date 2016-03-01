@@ -36,6 +36,8 @@ gallery.addEventListener('click', function(e){
       var data = e.target.getAttribute('data-thumb'),
         url = e.target.getAttribute('href');
       history.pushState(data, null, url);
+      history.pushState(data, null, url);
+      history.back();
       updateThumb(data);
       document.title = data;
     }
