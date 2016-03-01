@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script type="text/javascript" src="https://code.angularjs.org/1.4.4/angular.min.js"></script>
+    <style type="text/css">
+    </style>
+    <title>1.4.4 - Page Reloads</title>
+</head>
+<body>
+<div>
+<h1 id="thumb-viewer">Thumb A</h1>
+</div>
+<div ng-app="myApp">
+    <div debug-state></div>
+</div>
+<div>
+<ul class="gallery">
+<li><a href="/thumbs/slug-a" data-thumb="Thumb A">Thumb A</a></li>
+<li><a href="/thumbs/slug-b" data-thumb="Thumb B">Thumb B</a></li>
+<li><a href="/thumbs/slug-c" data-thumb="Thumb C">Thumb C</a></li>
+</ul>
+</div>
+<script type='text/javascript'>
+var thumbViewer = document.getElementById('thumb-viewer');
+var gallery = document.querySelector('.gallery');
+
+function updateThumb(content){
+	thumbViewer.innerHTML = content;
+}
+
+gallery.addEventListener('click', function(e){
+    if(e.target != e.currentTarget){
+      e.preventDefault();
+      console.log(e.target.getAttribute('href'));
+      var data = e.target.getAttribute('data-thumb'),
+        url = e.target.getAttribute('href');
+      history.pushState(data, null, url);
+      updateThumb(data);
+      document.title = data;
+    }
+    e.stopPropagation();
+  }, false);
+
+</script>
+
+<script type='text/javascript'>//<![CDATA[
+angular.module('myApp', [])
+.directive('debugState', function ($location) {
+    return {
+        template: '<span>{{ debugState }}</span>',
+        link: function (scope, el, attrs) {
+            // initialize the scope variable
+            if ($location.search().debug) {
+                scope.debugState = 'DEBUGGING'
+            } else {
+                scope.debugState = 'NORMAL';
+            }
+        }
+    };
+});
+//]]> 
+</script>
+</body>
+</html>

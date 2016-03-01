@@ -3,6 +3,6 @@ var gulp = require('gulp');
 var serve = require('gulp-serve');
 
 gulp.task('default', serve({
-	root: ['html'],
+	root: ['.'],
 	port: 3000
 }));

@@ -2,85 +2,20 @@
 <html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <script type="text/javascript" src="https://code.angularjs.org/1.4.4/angular.min.js"></script>
     <style type="text/css">
     </style>
-    <title>Slugger</title>
+    <title>AngularJS 1.4.3 vs. 1.4.4</title>
 </head>
 <body>
 <div>
-<h1 id="thumb-viewer">Thumb A</h1>
-</div>
-<div ng-app="myApp">
-    <div buffer="300" vector-text></div>
+<h1>Page Reload Illustration</h1>
+<p>These pages illustrate the page reload issue described in <a href="https://github.com/angular/angular.js/issues/12719">angular/angular.js issue #12719</a>.</p>
 </div>
 <div>
 <ul class="gallery">
-<li><a href="/slug-a" data-thumb="Thumb A">Thumb A</a></li>
-<li><a href="/slug-b" data-thumb="Thumb B">Thumb B</a></li>
-<li><a href="/slug-c" data-thumb="Thumb C">Thumb C</a></li>
+<li><a href="angular_1_4_3.html">AngularJS 1.4.3 - Clicking "thumbs" do not reload the page.</a></li>
+<li><a href="angular_1_4_4.html">AngularJS 1.4.4 - Clicking "thumbs" cause the page to reload.</a></li>
 </ul>
 </div>
-<script type='text/javascript'>
-var thumbViewer = document.getElementById('thumb-viewer');
-var gallery = document.querySelector('.gallery');
-
-function updateThumb(content){
-	thumbViewer.innerHTML = content;
-}
-
-gallery.addEventListener('click', function(e){
-    if(e.target != e.currentTarget){
-      e.preventDefault();
-      console.log(e.target.getAttribute('href'));
-      var data = e.target.getAttribute('data-thumb'),
-        url = e.target.getAttribute('href');
-      history.pushState(data, null, url);
-      updateThumb(data);
-      document.title = data;
-    }
-    e.stopPropagation();
-  }, false);
-
-</script>
-
-<script type='text/javascript'>//<![CDATA[
-angular.module('myApp', [])
-.directive('vectorText', function ($document) {
-    return {
-        template: '<span>{{ heading }}</span>',
-        link: function (scope, el, attrs) {
-
-            // initialize the css
-            el.css({
-                'float': 'left',
-                'padding': attrs.buffer+"px"
-            });
-
-            // initialize the scope variable
-            scope.heading = '';
-
-            // set event listener and handler
-            $document.on('mousemove', function (event) {
-                // mousemove event does not start $digest,
-                // scope.$apply does this manually
-                scope.$apply(function () {
-                    if (event.pageY < 300) {
-                        scope.heading = 'N';
-                    } else {
-                        scope.heading = 'S';
-                    }
-                    if (event.pageX < 300) {
-                        scope.heading += 'W';
-                    } else {
-                        scope.heading += 'E';
-                    }
-                });
-            });
-        }
-    };
-});
-//]]> 
-</script>
 </body>
 </html>
